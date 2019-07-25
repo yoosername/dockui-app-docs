@@ -1,0 +1,51 @@
+key: dockui.demo.app.docs
+alias: docs
+name: DockUI Docs App
+baseUrl: http://localhost:3334
+type: dynamic
+description: This is a demo Dashboard App providing documentation
+version: 1.0.0
+descriptorVersion: 1.0.0
+# This defaults to dockui.app.yml ( used e.g. for reloads )
+descriptorName: dockui.app.yml
+icon: "/images/logo.png"
+lifecycle:
+  - loaded: /loaded
+authentication:
+  - type: jwt
+# TODO: This App is part of the Dashboard Demo App so add mechanism
+# to declare that we require it to be installed first
+dependencies:
+  - dockui.dashboard.app@^0.0.1
+modules:
+  # Provides:
+  #   Routing at the base level for prettier URLs
+  - type: Route
+    name: Dashboard App Routes
+    key: dockui.routes.docs
+    routes:
+      - from: ^/docs$
+        to: /app/docs/index
+    weight: 0
+
+    # Inject Page fragment on dashboard home page
+  - type: WebFragment
+    name: Docs Dashboard fragment
+    key: dockui.dashboard.fragments.docs
+    url: /pages/fragment.html
+    selector: "#docs"
+    location: dockui.dashboard:body
+    weight: 10
+    cache:
+      enabled: true
+      ttl: 60000ms
+
+    # The main Docs index page (to be decorated by the demo dashboard)
+  - type: WebPage
+    aliases:
+      - index
+    name: Docs
+    key: dockui.dashboard.docs
+    url: /pages/index.html
+    decorator: dockui.dashboard.decorator
+    enabled: true
