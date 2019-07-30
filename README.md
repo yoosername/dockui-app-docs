@@ -19,6 +19,9 @@ $ docker build --tag dockui/app-docs .
 $ docker run -it \
   --env HTTP_PORT=3334 \
   --env HTTP_SCHEME=http \
+  --network dockui \
+  --label DOCKUI_APP=true \
+  --label DOCKUI_DESCRIPTOR=dockui.app.yml \
   -p 3334:3334 \
   -v $(pwd):/app \
   dockui/app-docs
